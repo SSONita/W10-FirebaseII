@@ -22,4 +22,10 @@ class SongRepositoryMock implements SongRepository {
       );
     });
   }
+  
+  @override
+  Future<Song> likeSong(String id, int currentLike) {
+    // TODO: implement likeSong
+    throw UnimplementedError();
+  }
 }
