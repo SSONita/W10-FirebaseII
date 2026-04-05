@@ -17,6 +17,21 @@ class ArtistRepositoryFirebase implements ArtistRepository {
     '/artists.json',
   );
 
+  List<Artist>? _cachedArtists;
+
+  @override
+  Future<List<Artist>> getArtists({bool forceFetch = false}) async {
+    if (!forceFetch && _cachedArtists != null) {
+      return _cachedArtists!;
+    }
+
+    final artists = await fetchArtists();
+
+    _cachedArtists = artists;
+
+    return artists;
+  }
+
   @override
   Future<List<Artist>> fetchArtists() async {
     final http.Response response = await http.get(artistsUri);

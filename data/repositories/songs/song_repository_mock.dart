@@ -28,4 +28,10 @@ class SongRepositoryMock implements SongRepository {
     // TODO: implement likeSong
     throw UnimplementedError();
   }
+  
+  @override
+  Future<List<Song>> getSongs({bool forceFetch = false}) {
+    // TODO: implement getSongs
+    throw UnimplementedError();
+  }
 }

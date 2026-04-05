@@ -16,6 +16,21 @@ class SongRepositoryFirebase extends SongRepository {
     '/songs.json',
   );
 
+  List<Song>? _cachedSongs;
+
+  @override
+  Future<List<Song>> getSongs({bool forceFetch = false}) async {
+    if (!forceFetch && _cachedSongs != null) {
+      return _cachedSongs!;
+    }
+
+    final songs = await fetchSongs();
+
+    _cachedSongs = songs;
+
+    return songs;
+  }
+
   @override
   Future<List<Song>> fetchSongs() async {
     final http.Response response = await http.get(songsUri);
@@ -37,11 +52,11 @@ class SongRepositoryFirebase extends SongRepository {
     }
   }
 
-@override
+  @override
   Future<Song> likeSong(String id, int currentLike) async {
     final Uri songUri = songsUri.replace(path: '/songs/$id.json');
-    //in the doc i said the HTTP verb would be PUT but now 
-    //i use PATCH instead because we don't need to replace the entire object, 
+    //in the doc i said the HTTP verb would be PUT but now
+    //i use PATCH instead because we don't need to replace the entire object,
     //we only need to update the like field
     final response = await http.patch(
       songUri,
@@ -60,9 +75,8 @@ class SongRepositoryFirebase extends SongRepository {
     }
   }
 
-  
   @override
-  Future<Song?> fetchSongById(String id) async{
+  Future<Song?> fetchSongById(String id) async {
     final Uri songUri = songsUri.replace(path: '/songs/$id.json');
 
     final http.Response response = await http.get(songUri);

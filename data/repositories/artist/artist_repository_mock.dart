@@ -20,4 +20,10 @@ class ArtistRepositoryMock implements ArtistRepository {
       );
     });
   }
+  
+  @override
+  Future<List<Artist>> getArtists({bool forceFetch = false}) {
+    // TODO: implement getArtists
+    throw UnimplementedError();
+  }
 }
